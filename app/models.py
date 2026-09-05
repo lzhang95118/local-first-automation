@@ -1,6 +1,6 @@
-from pydantic import BaseModel, Field
 from typing import Literal
 
+from pydantic import BaseModel, Field
 
 
 class AutomationEvent(BaseModel):
@@ -9,3 +9,7 @@ class AutomationEvent(BaseModel):
     source: Literal["client", "local_app", "manual"]
     payload: dict
 
+class EventResult(BaseModel):
+    status: Literal["processed", "duplicate"]
+    event_id: str
+    event_type: str | None = None

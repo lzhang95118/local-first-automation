@@ -1,7 +1,7 @@
 import logging
 import time
 
-from app.models import AutomationEvent
+from app.models import AutomationEvent, EventResult
 from app.storage import is_event_processed, mark_event_processed
 
 
@@ -9,21 +9,20 @@ logger = logging.getLogger(__name__)
 
 
 
+def perform_processing(event: AutomationEvent) -> EventResult:
+    return EventResult(
+        status="processed",
+        event_id=event.event_id,
+        event_type=event.event_type,
+    )
 
-def perform_processing(event: AutomationEvent):
-    return {
-        "status": "processed",
-        "event_id": event.event_id,
-        "event_type": event.event_type,
-    }
 
-
-def process_event(event: AutomationEvent):
+def process_event(event: AutomationEvent) -> EventResult:
     if is_event_processed(event.event_id):
-        return {
-            "status": "duplicate", 
-            "event_id": event.event_id,
-        }
+        return EventResult(
+            status="duplicate",
+            event_id=event.event_id,
+        )
 
     max_attempts = 3
 
@@ -46,7 +45,6 @@ def process_event(event: AutomationEvent):
             )
 
             return result
-
         
         except RuntimeError as exc:
             logger.warning(
@@ -69,4 +67,5 @@ def process_event(event: AutomationEvent):
             time.sleep(attempt)
 
 
+    raise RuntimeError("Event processing exited without a result")
 

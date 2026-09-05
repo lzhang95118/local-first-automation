@@ -13,6 +13,8 @@ This public repository uses synthetic events and simplified workflows to demonst
 - SQLite-backed idempotency
 - health check endpoint
 - structured logging
+- automated API, workflow and storage tests with pytest
+- isolated SQLite test environments using pytest fixtures
 
 ## Example Flow
 
@@ -48,8 +50,9 @@ Real event names, payloads and integrations are intentionally excluded.
 
 Under active development.
 
-## Planned additions:
-- automated testing with pytest
+
+## Planned additions
+
 - Docker
 - GitHub Actions CI
 - deployment workflow

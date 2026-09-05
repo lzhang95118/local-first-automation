@@ -13,7 +13,7 @@ def initialise_database():
         connection.execute(
             """
             CREATE TABLE IF NOT EXISTS processed_events (
-                even_id TEXT PRIMARY KEY
+                event_id TEXT PRIMARY KEY
             )
             """
         )
@@ -25,7 +25,7 @@ def is_event_processed(event_id: str) -> bool:
             """
             SELECT 1
             FROM processed_events
-            WHERE even_id = ?
+            WHERE event_id = ?
             """,
             (event_id,),
         )
@@ -37,7 +37,7 @@ def mark_event_processed(event_id: str):
     with sqlite3.connect(DB_PATH) as connection:
         connection.execute(
             """
-            INSERT INTO processed_events (even_id)
+            INSERT INTO processed_events (event_id)
             VALUES (?)
             """,
             (event_id,),

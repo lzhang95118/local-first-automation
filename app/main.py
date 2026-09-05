@@ -7,8 +7,7 @@ from app.workflow import process_event
 from app.storage import initialise_database
 
 
-logging.basicConfig
-
+logging.basicConfig(level=logging.INFO)
 
 app = FastAPI()
 
